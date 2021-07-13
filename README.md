@@ -33,7 +33,7 @@ LaTeXで画像を挿入するためには以下のコマンドを記述する必
 
 * Perl 5系(5.12.4以上から動作確認)
 * LaTeXを実行できる環境
-* [VSCode](https://code.visualstudio.com)の利用を推奨
+* [VSCode][VS]の利用を推奨
 
 # How To Use
 
@@ -72,6 +72,22 @@ perl matoato.pl --pdf readme.txt
 
 追加した機能などはファイルにPDFとしてまとめています。ぜひご覧ください。
 
+# VSCodeでの利用法
+
+[VSCode][VS]を利用するとより便利にまとあとを利用できます。
+「settings_vscode.json」はVSCodeの「settings.json」に、「snipets_latex.json」はスニペットの設定「latex.json」に対応しています。
+基本的にはコピペでオッケーですが、既に利用している場合には設定の部分のみコピペしてください。
+
+この設定を反映することで「txt」ファイルを保存しただけで「tex」ファイルを作成し、自動で開いてくれます。
+「tex」ファイルを開いている状態でもう一度保存すると、ビルドが始まります。
+
+## Requirement
+
+VSCodeで実行するには以下の拡張機能が必須です。
+
+* [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
+* [Run on Save](https://marketplace.visualstudio.com/items?itemName=emeraldwalk.RunOnSave)
+
 # License
 
 このプログラムは[権利者][matoato]の許可を得て改変しております。
@@ -79,3 +95,4 @@ perl matoato.pl --pdf readme.txt
 
 
 [matoato]:https://www.vector.co.jp/soft/win95/writing/se296642.html
+[VS]:https://code.visualstudio.com
