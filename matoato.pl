@@ -171,7 +171,9 @@ $bug000813 =~ s/\n\t(\t){0,1}/\n$1/g;
 #-------------------------------------------------------
 ############		Version 履歴(begin)		############
 #-------------------------------------------------------
-$VER=	'まとあと txt2tex/tex2txt 0.9.4, ななみん, 210701';#■□■□■□■□■□■□■□■□
+$VER=	'まとあと txt2tex/tex2txt 0.9.4b, ななみん, 210801';#■□■□■□■□■□■□■□■□
+	#	〇main:「platex」から「uplatex」へ変更
+#$VER=	'まとあと txt2tex/tex2txt 0.9.4, ななみん, 210701';#■□■□■□■□■□■□■□■□
 	# 	〇txt2tex:機能追加：txtにまとあとwarningを書き込む
 	# 	〇txt2bib:削除：色々あった
 	#	〇subfig:機能追加：「複」コマンド追加、m×nで画像配置が可能に
@@ -1379,7 +1381,8 @@ sub	txt2jcode_print{
 
 sub read_matoatorc{
 	my	($_org);
-	$H_GET_DVI='platex -interaction=nonstopmode $input';	#DVIに変換
+	# $H_GET_DVI='platex -interaction=nonstopmode $input';	#DVIに変換
+	$H_GET_DVI='uplatex -interaction=nonstopmode -kanji=utf8 $input';	#DVIに変換 210801
 	$H_GET_HTML='latex2html -split 1 $input';	#HTMLに変換
 	$H_GET_PS='dvipsk $input';	#PSに変換
 	#$H_GET_PDF='dvipdfm $input';	#PDFに変換
@@ -1939,7 +1942,8 @@ sub set_output_file{    # 出力ファイルの設定
 sub	print_readme{
 	my($tmp);
 	$tmp= <<'USAGE_DISCREPTION';
-	"\usepackage{ascmac}\textheight240mm"
+	\documentclass[uplatex,10ptj,a4j]{jsarticle}
+	"\usepackage{ascmac}\textheight240mm\topmargin-70pt"
 	"\makeatletter"
 	"\renewcommand*{\l@section}[2]{"
 	"\ifnum \c@tocdepth >\z@"
@@ -1958,11 +1962,11 @@ sub	print_readme{
 	"\def\l@subsection#1#2{\@dottedtocline{2}{1.5em}{2.3em}{#1}{#2}}"
 	"\def\l@subsubsection#1#2{\@dottedtocline{3}{3.8em}{3.2em}{#1}{#2}}"
 	"\makeatother"
-	題名：まとあと"(matoato ver. 0.8.1)"のマニュアル
+	題名：まとあとのマニュアル
 
 	作成：まとあと
 
-	日付：2020年06月24日
+	日付：\today
 
 	要約：
 	　"matoato"は、"WYSIWYG"っぽくて見やすいテキストファイル"(拡張子txt)"を LaTeX ファイル"(拡張子tex)"に変換します。
@@ -1990,11 +1994,11 @@ sub	print_readme{
 	　式の例を、（eqn:1）, （eqn:2）式に示します。
 
 		x = ／ Kp \ X2 (0) , ， k=N+1					（eqn:1）
-		    ＼ ∞          , ， k ≧ N+2
+			＼ ∞          , ， k ≧ N+2
 		a =／x ＼ + (a- ／a1 , 0   , … , 0  ＼ + ／x, 1＼ ^ {-1} ) - a	（eqn:2）
-		   ＼y ／       | a2 , a1  , ・., 0   |   | 2, 3 |
-		                | ： , ：  , ・., 0   |   ＼z, 9／
-		                ＼an , am  , … , a1 ／
+		＼y ／       | a2 , a1  , ・., 0   |   | 2, 3 |
+						| ： , ：  , ・., 0   |   ＼z, 9／
+						＼an , am  , … , a1 ／
 
 	　図の例を、図（fig_ex1）に示します。
 		図："matoato"の広がり（fig_ex1.eps,0.6倍）	% ←図を挿入するコマンドです。
@@ -2034,7 +2038,7 @@ sub	print_readme{
 	つまり、見やすい"txt"ファイルと難解なTeXファイルは相互に変換可能であり、両者に含まれる情報は、等価ということです。
 	　ただし、バグも多くありますので、目でチェックお願いします。
 	変換後の"tex"ファイルには、バグレポートとして次のような"Warning"メッセージをコメントとして記述していますので、文章中の"Warning"を検索してご参考ください。
-	  % ↓ そのままの文章を枠で囲んで印刷するときのLaTeXコマンドです。
+	% ↓ そのままの文章を枠で囲んで印刷するときのLaTeXコマンドです。
 	\begin{shadebox}\begin{verbatim}
 	% txt2tex Warning(25): カッコが")("のように開いています。
 	% txt2tex Warning(274): 左カッコが多いかも？( or [ =2, ) or ] =0
@@ -2363,7 +2367,7 @@ sub	print_readme{
 	\end{verbatim}\end{screen}
 	（）内のコマンドの順番に意味はありません。
 	それぞれのコマンドの意味は以下のとおりです。"\\"
-	
+
 		表：
 		-----------------------------------------------------------------
 						|説明					|省略時のデフォルト値
@@ -2487,7 +2491,7 @@ sub	print_readme{
 	\end{verbatim}\end{screen}
 	"extension"は"eps,png,jpg"のどれかです。（）内のコマンドの順番に意味はありません。
 	それぞれのコマンドの意味は以下のとおりです。"\\"
-	
+
 		表：
 		-----------------------------------------------------------------
 								|説明					|省略時のデフォルト値
@@ -2506,9 +2510,10 @@ sub	print_readme{
 	1つのコマンドを1行に書いてください。
 
 	節節：複数図
-	一つの図の中に「図77("x")」のように複数の図を挿入したい時は行頭に”タブ”を書き、続けて以下のように書くと、"eps","png","jpg"ファイルが縦向きに挿入されます。横に並べて挿入したい場合は、"「	横：」"と記述してください。縦か横かの違いだけでその他の設定方法に違いはありません。
+	　一つの図の中に「図77("x")」のように複数の図を挿入したい時は行頭に”タブ”を書き、続けて以下のように書くと、"eps","png","jpg"ファイルが縦向きに挿入されます。横に並べて挿入したい場合は、"「	横：」"と記述してください。縦か横かの違いだけでその他の設定方法に違いはありません。
+	　また「縦」や「横」の代わりに「複」を利用することで任意の形に図を挿入することが可能です。
 	\begin{screen}\begin{verbatim}
-		縦：キャプション（ラベル,上下ここ頁：キャプション1（filiname1.extension,ラベル1,1.0倍）,キャプション2（filiname2.extension,ラベル2,1.0倍）, ...）
+		複：キャプション（ラベル,上下ここ頁：キャプション1（filiname1.extension,ラベル1,1.0倍）,キャプション2（filiname2.extension,ラベル2,1.0倍）, ...）（lnm...）
 	\end{verbatim}\end{screen}
 	"extension"は"eps,png,jpg"のどれかです。「ラベル,上下ここ頁」と「"filiname"."extension","ラベル",n倍」内のコマンドの順番に意味はありません。
 	それぞれのコマンドの意味は以下のとおりです。"\\"
@@ -2523,12 +2528,16 @@ sub	print_readme{
 		キャプション1			|図i("a")の表題				|	
 		"filename1.extension"	|図i("a")のファイル名		|省略不可
 		1.0倍					|図i("a")の大きさ(倍率)		|1.0倍
+		l m n					|図の配置設定				|	
 		-----------------------------------------------------------------
-	
+
 	"\\"キャプションを省略したとき、”図：”と異なり、キャプションに半角スペースが挿入されます(参照できないため)。
 	"extension"にあげた拡張子以外の図を挿入したいときは、LaTeXコマンドを直接記述してください。
 	もしくは"extension"の変数を変更してください。
 	1つのコマンドを1行に書いてください。
+	　図の配置方法「l m n」は1行目にl枚、2行目にm枚、3行目にn枚、…のように配置されます。もし合計の枚数と配置方法の枚数が合わない場合や
+	配置方法が指定されていない場合、自動で調整されます。
+
 
 	7節：参考文献
 	参考文献の仕様：
@@ -2543,20 +2552,20 @@ sub	print_readme{
 	これはこうです。（参：Knuth）
 
 	参考文献：
-	参：TeX-Faq)"http://www.matsusaka-u.ac.jp/"~"okumura/texfaq/"
-	参：Knuth)"Donald E. Knuth", TeX, スタンフォード大 (1977)
-	参：bear-bear-collection)"http://mechanics.civil.tohoku.ac.jp/"~"bear/
+	TeX-Faq)"http://www.matsusaka-u.ac.jp/"~"okumura/texfaq/"
+	Knuth)"Donald E. Knuth", TeX, スタンフォード大 (1977)
+	bear-bear-collection)"http://mechanics.civil.tohoku.ac.jp/"~"bear/
 	bear-collections/style-files/style-fj.html"
-	参：LaTeX参考書)阿瀬はる美，てくてくTeX 上下，アスキー出版局 (1994)
+	LaTeX参考書)阿瀬はる美，てくてくTeX 上下，アスキー出版局 (1994)
 	\end{verbatim}\end{screen}
 	\begin{shadebox}
 	これはこうです。（参：Knuth）
 
 	参考文献：
-	参：TeX-Faq)"http://www.matsusaka-u.ac.jp/"~"okumura/texfaq/"
-	参：Knuth)"Donald E. Knuth", TeX, スタンフォード大 (1977)
-	参：bear-bear-collection)"http://mechanics.civil.tohoku.ac.jp/"~"bear/bear-collections/style-files/style-fj.html"
-	参：LaTeX参考書)阿瀬はる美，てくてくTeX 上下，アスキー出版局 (1994)
+	TeX-Faq)"http://www.matsusaka-u.ac.jp/"~"okumura/texfaq/"
+	Knuth)"Donald E. Knuth", TeX, スタンフォード大 (1977)
+	bear-bear-collection)"http://mechanics.civil.tohoku.ac.jp/"~"bear/bear-collections/style-files/style-fj.html"
+	LaTeX参考書)阿瀬はる美，てくてくTeX 上下，アスキー出版局 (1994)
 	\end{shadebox}
 
 	8節：コメント
@@ -2586,7 +2595,7 @@ sub	print_readme{
 	参照ラベルの定義も参照も（ラベル名）の形式です。
 	（ラベル名）は、1から出現が早いものの順に数字に変換されます。
 	式，図，表，箇条書（リスト），参考文献，章に使われます。
-	
+
 
 	9節："\#define"文	（define文）
 	行頭に"\#define"が書かれているとき、"C"言語のように以下の処理がなされます。
@@ -2616,7 +2625,7 @@ sub	print_readme{
 
 	10節：知っておくと便利なLaTeXコマンド
 	知っておくと便利なLaTeXコマンド（参：LaTeX参考書）を下表に示します。"\\"
-	
+
 		表：
 		------------------------------------------------
 		|機能	|LaTeXコマンド		|
@@ -2680,12 +2689,12 @@ sub	print_readme{
 		　・「"まとあとv0.8"」, 「"まとあとv0.8（PDF）"」と"matoato081.pl"は同じフォルダに入れてください。
 
 	\begin{verbatim}
-	　○使い方（コマンドプロンプト）：perl matoato081.pl [-オプション] [ファイル]
-	　　c:\perl\binにmatoato081.plをコピーしておいてください。
+	　○使い方（コマンドプロンプト）：perl matoato.pl [-オプション] [ファイル]
+	　　c:\perl\binにmatoato.plをコピーしておいてください。
 		　ファイルをtexファイルに変換。ただしファイルの拡張子が tex のとき，txtファイルに逆変換。
-		　例） perl matoato081.pl myfie.txt        ---> myfile.tex を作成
-		　     perl matoato081.pl --pdf myfie.tex  ---> myfile.pdf を作成
-		　     perl matoato081.pl myfie.tex        ---> myfile.txt を作成
+		　例） perl matoato.pl myfie.txt        ---> myfile.tex を作成
+		　     perl matoato.pl --pdf myfie.tex  ---> myfile.pdf を作成
+		　     perl matoato.pl myfie.tex        ---> myfile.txt を作成
 		　スイッチ：（未対応を含みます。）
 		　・-h, -?：   matoatoの使い方を簡単に示します．
 		　・--txt2tex：拡張子にかかわらず txt2tex します．
@@ -2717,11 +2726,13 @@ sub	print_readme{
 	7章：履歴
 
 	　履歴を以下に示しておきます．
+		　・"2020.09.01　ver. 0.9 (Windows10, Macintoshに対応。SJIS, UTF-8, EUC-JPに対応)"
 		　・"2020.06.24　ver. 0.8 (Windows10に対応。ActivePerl 5.26.3を推奨。TeX Live 2020,latexmkrcが必要, SJISのみ)"
 		　・"2011.09.03　ver. 0.6 (Windows7に対応。ActivePerl 5.12.4が必要, SJISのみ)"
 		　・"2003.09.03　ver. 0.5 (WindowsXP, Macintosh, Linuxなどに対応。"LaTeX2e"用, jperl5またはperl 5.8.0が必要)"
 		　・"2000.07.07　ver. 0.4 (Macintosh版公開。"LaTeX" 2.09用)"
 		　・"1998.08.13　Perlの練習を兼ねて作成開始"
+
 
 USAGE_DISCREPTION
 	$tmp =~ s/^\t//;
