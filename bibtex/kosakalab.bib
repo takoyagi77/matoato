@@ -1,0 +1,322 @@
+% -----------------------------------------------------------------------------------------
+% 小坂研用参考文献リスト kosakalab.bib
+% 		作成：ななみん 2020年10月
+%		編集：ななみん 2020年12月19日
+%			 ニャンちゅう 2020年12月21日
+%
+% 基本はBibTeXの使い方と同じ。詳しくはGoogle先生か、このbib自体を参照。
+% ＠conferencearticleと＠myurlは自作。「myjunsrt.bst」が必要。
+%
+% ＠conferencearticle
+% 		author,title,journal,presentation,yearの順に出力。
+% 		presentationは発表番号等書くことを想定。
+%
+% ＠myurl
+% 		author,title,year,url,refdateの順に出力。
+% 		urlはURLをそのまま打ち込む。\url{}が自動で付く。 -> texの方で「url.sty」は読み込む。
+% 		refdateは参照日を書く。(参照日 )が自動でつく。
+% -----------------------------------------------------------------------------------------
+
+% -----------------------------------------------------------------------------------------
+% BibTeXの書き方例
+% -----------------------------------------------------------------------------------------
+@article{ArticleTest_JPN,
+	author          = {近大, 太郎 and 近大, 花子},
+	title           = {参考文献挿入例article(日本語)版},
+	journal         = {近畿大学},
+	volume          = {123},
+	number          = {456},
+	year            = {789},
+	pages           = {2345--9876},
+}
+@article{ArticleTest_ENG,
+	author          = {Kindai, Taro and Kindai, Hanako},
+	title           = {Example for bibliography in ENG},
+	journal         = {Kindai},
+	volume          = {234},
+	number          = {567},
+	year            = {890},
+	pages           = {1234--5668},
+}
+@book{BookTest,
+	author          = {近大, 次郎},
+	title           = {参考文献挿入例book版},
+	publisher       = {近大社},
+	year            = {1234},
+	pages           = {565--908}
+}
+@conferencearticle{ConferencearticleTest,
+	author          = {近大, 加奈 and 近大, 静流 and 近大, こころ},
+	title           = {参考文献挿入例Conferencearticle版},
+	journal         = {近畿大学},
+	presentation    = {発表番号とか年度やページ番号の後に入れれる文章ならなんでも},
+	year            = {2345},
+	volume          = {678},
+	number          = {901},
+}
+@myurl{URLTest,
+	author          = {近大, 三郎},
+	title           = {参考文献挿入例URL版},
+	url             = {URLを入れる},
+	refdate         = {2345年67月89日},
+	additionaldata  = {年度の前に情報を入れる場合(Toolboxを想定)},
+	sitename        = {ウェブサイトの名前},
+	year            = {6789},
+}
+
+% -----------------------------------------------------------------------------------------
+% 小坂研関連
+% -----------------------------------------------------------------------------------------
+@article{vtiger_j,
+	title           = {仮想時間応答に基づく制御ゲインの評価と再設計の反復},
+	author          = {小坂, 麻人 and 小坂, 彩人 and 池田, 篤俊 and 小坂, 学},
+	journal         = {計測自動制御学会論文集},
+	volume          = {56},
+	number          = {4},
+	pages           = {227--235},
+	year            = {2020},
+	publisher       = {公益社団法人 計測自動制御学会}
+}
+@conferencearticle{vtiger_e,
+	author          = {Kosaka, Manabu},
+	title           = {Virtual Time-response based Iterative Gain Evaluation and Redesign},
+	journal         = {In the proc. of the IFAC World Congress},
+	year            = {2020},
+	presentation    = {398}
+}
+@conferencearticle{vtiger_j2,
+	author          = {小坂, 学},
+	title           = {周波数データに基づく仮想時間応答を最適化するV-Tigerの外乱応答と安定余裕の考慮},
+	journal         = {日本機械学会論文集},
+	presentation    = {DOI: 10.1299/transjsme.20-00304},
+	volume          = {87},
+	number          = {893},
+	year            = {2021}
+}
+@conferencearticle{vtiger_youshi,
+	author          = {小坂, 学},
+	journal         = {日本機械学会論文集},
+	presentation    = {DOI: 10.1299/transjsme.20-00304},
+	volume          = {87},
+	number          = {893},
+	year            = {2021}
+}
+@book{control,
+	author          = {小坂, 学},
+	title           = {高校数学でマスターする制御工学},
+	publisher       = {コロナ社},
+	year            = {2012},
+	pages           = {777-888},
+}
+@conferencearticle{robomech2020_shinozaki,
+	author          = {篠崎, 七海 and 小坂, 学 and 須田, 敦 and 田上, 将治 and 五百井, 清},
+	title           = {仮想時間応答を評価するAI的データ駆動制御V-Tigerの多出力化},
+	journal         = {ROBOMECH2020},
+	presentation    = {1A1-G04},
+	year            = {2020}
+}
+@conferencearticle{robomech2020_makii,
+	author          = {槇井, 俊輔 and 小坂, 学},
+	title           = {仮想時間応答を評価するAI的データ駆動制御V-Tigerの実用化},
+	journal         = {ROBOMECH2020},
+	year            = {2020},
+	presentation    = {1A1-G03},
+}
+@conferencearticle{robomech2020_terai,
+	author          = {寺井, 貴洋 and 小坂, 麻人 and 小坂, 学},
+	title           = {仮想時間応答を評価するAI的データ駆動制御V-Tigerの多入出力化},
+	journal         = {ROBOMECH2020},
+	year            = {2020},
+	presentation    = {1A1-G02},
+}
+	% -----------------------------------------------------------------------------------------
+	% ここまで2020年10月
+	% -----------------------------------------------------------------------------------------
+@article{rengo2020_shinozaki,
+	author          = {篠崎, 七海 and 小坂, 学},
+	title           = {不安定系を含む周波数応答データによる仮想時間応答},
+	journal         = {第63回自動制御連合講演会, 2G4-4},
+	year            = {2020},
+	pages           = {1258--1261},
+}
+@article{rengo2020_ichinomoto,
+	author          = {一ノ本, 将冴 and 倉本, 真輝 and 小坂, 学},
+	title           = {2自由度制御系へのV-Tigerの適用},
+	journal         = {第63回自動制御連合講演会, 2G4-6},
+	year            = {2020},
+	pages           = {1265--1272},
+}
+	% -----------------------------------------------------------------------------------------
+	% ここまで2020年12月19日
+	% -----------------------------------------------------------------------------------------
+
+% -----------------------------------------------------------------------------------------
+% その他色々
+% -----------------------------------------------------------------------------------------
+@myurl{pso,
+	url={https://www.mathworks.com/matlabcentral/fileexchange/25986},
+	refdate={2020年8月15日},
+	author={Chen, S},
+	year={2009},
+	title={"Constrained Particle Swarm Optimization"},
+}
+@article{gekisin,
+  author          = {五百井, 清 and 須田, 敦 and 山本, 昌彦},
+  title           = {低衝撃低振動台車を実現する能動制振キャスターの研究},
+  journal         = {日本機械学会論文集（C 編)},
+  volume          = {79},
+  number          = {808},
+  pages           = {329--340},
+  year            = {2013}
+}
+@article{campi2002virtual,
+  title={Virtual reference feedback tuning: a direct method for the design of feedback controllers},
+  author={Campi, Marco C and Lecchini, Andrea and Savaresi, Sergio M},
+  journal={Automatica},
+  volume={38},
+  number={8},
+  pages={1337--1346},
+  year={2002},
+  publisher={Elsevier}
+}
+@article{rykov1997predcon,
+  title={PREDCON: a package for multiobjective controller design},
+  author={Rykov, AS and Vinogradova, II and Kuznetsov, AG},
+  journal={IFAC Proceedings Volumes},
+  volume={30},
+  number={21},
+  pages={55--59},
+  year={1997},
+  publisher={Elsevier}
+}
+@article{perez2007particle,
+  title={Particle swarm approach for structural design optimization},
+  author={Perez, RE l and Behdinan, K},
+  journal={Computers \& Structures},
+  volume={85},
+  number={19-20},
+  pages={1579--1588},
+  year={2007},
+  publisher={Elsevier}
+}
+@article{佐伯正美2014モデルマッチング,
+  title={モデルマッチングによるデータ駆動制御器設計のための参照モデルの選定},
+  author={佐伯, 正美 and 山成, 真輝 and 和田, 信敬 and 佐藤, 訓志},
+  journal={システム制御情報学会論文誌},
+  volume={27},
+  number={3},
+  pages={73--79},
+  year={2014},
+  publisher={一般社団法人 システム制御情報学会}
+}
+@article{相馬将太郎2004一回の実験データに基づく制御器パラメータチューニングの新しいアプローチ,
+  title={一回の実験データに基づく制御器パラメータチューニングの新しいアプローチ},
+  author={相馬, 将太郎 and 金子, 修 and 藤井, 隆雄},
+  journal={システム制御情報学会論文誌},
+  volume={17},
+  number={12},
+  pages={528--536},
+  year={2004},
+  publisher={一般社団法人 システム制御情報学会}
+}
+@article{髙橋英輔2019一組の実験データを直接用いた閉ループ系の応答予測の新しいアプローチ,
+  title={一組の実験データを直接用いた閉ループ系の応答予測の新しいアプローチ},
+  author={髙橋, 英輔 and 金子, 修},
+  journal={計測自動制御学会論文集},
+  volume={55},
+  number={4},
+  pages={324--330},
+  year={2019},
+  publisher={公益社団法人 計測自動制御学会}
+}
+@article{田坂謙一2009閉ループデータに基づく直接的,
+  title={閉ループデータに基づく直接的 PID 調整とその不安定プロセスへの適用},
+  author={田坂, 謙一 and 加納, 学 and 小河, 守正 and 増田, 士朗 and 山本, 透},
+  journal={システム制御情報学会論文誌},
+  volume={22},
+  number={4},
+  pages={137--144},
+  year={2009},
+  publisher={システム制御情報学会}
+}
+@article{Relayfeedback2002,
+  title={Relay feedback auto-tuning of process controllers-a tutorial review},
+  author={Hang, C C and Astrom, K J and Wang, Q G },
+  journal={Journal of Process Control},
+  volume={12},
+  number={1},
+  pages={143--162},
+  year={2002},
+  publisher={Elsevier}
+}
+@article{規範モデル二自由度1994,
+  author          = {小山, 正人 and 長野, 鉄明},
+  title           = {規範モデルを用いた電動機の2自由度位置制御},
+  journal         = {電気学会論文誌D},
+  volume          = {114},
+  number          = {2},
+  pages           = {137--143},
+  year            = {1994}
+}
+@article{機械学習二自由度2017,
+  author          = {野田, 哲男 and 長野, 陽 and 永谷, 達也 and 堂前, 幸康 and 長野, 鉄明 and 田中, 健一 and 小笠原, 司},
+  title           = {機械学習の枠組みに基づく能動型探索アルゴリズムのサーボパラメータ調整問題への適用性の検討},
+  journal         = {計測自動制御学会論文集},
+  volume          = {53},
+  number          = {3},
+  year            = {2017},
+  pages           = {217--228}
+}
+@myurl{カーボンニュートラル経産省,
+	author={経済産業省},
+	title={2050年カーボンニュートラルに向けた 資源・燃料政策の検討の方向性},
+	url={https://www.meti.go.jp/shingikai/enecho/shigen_nenryo/pdf/030_02_00.pdf},
+	year={2020},
+	refdate={2020年12月10日}
+}
+@myurl{カーボンニュートラル経団連,
+	author={日本経済団体連合会 一般社団法人},
+	title={2050 年カーボンニュートラル(Society 5.0 with Carbon Neutral)実現に向けて -経済界の決意とアクション-},
+	url={https://www.keidanren.or.jp/policy/2020/123_honbun.pdf},
+	year={2020},
+	refdate={2020年12月10日}
+}
+@myurl{カーボンニュートラルwiki,
+	url={https://ja.wikipedia.org/wiki/カーボンニュートラル},
+	refdate={2020年12月10日}
+}
+@myurl{もったいない,
+	url={http://www.mottainai.info/jp/about/},
+	refdate={2020年12月10日}
+}
+@myurl{ロボットアーム料理,
+	url={https://robot.mirai-media.net/moley-robo/},
+	refdate={2020年12月10日}
+}
+% -----------------------------------------------------------------------------------------
+% ここまで2020年12月19日
+% -----------------------------------------------------------------------------------------
+@article{douki1,
+  author={Kaneda, Yutaka},
+  journal={J.A.E.S.},
+  volume={63},
+  number={5},
+  pages={348-357},
+  year={2015},
+}
+@book{douki2,
+	author          = {宮川, 洋他},
+	title           = {ディジタル信号処理},
+	publisher       = {コロナ社},
+	year            = {1975},
+	pages           = {46},
+}
+@article{douki3,
+  title={同期加算を用いたインパルス応答測定における伝達系変動の影響の検討},
+  author={花房, 宏昭 and 金田, 豊},
+  journal={日本音響学会講演論文集},
+  year={2017},
+}
+% -----------------------------------------------------------------------------------------
+% ここまで2020年12月21日
+% -----------------------------------------------------------------------------------------

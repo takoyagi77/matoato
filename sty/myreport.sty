@@ -1,0 +1,93 @@
+%---------------------------------------------------
+% レポート用styファイル
+% 2020.10.05 ななみん
+%---------------------------------------------------
+
+%------------------------------------------------------------
+% ページ設定
+%------------------------------------------------------------
+\sloppy
+\flushbottom
+\parindent 1em
+\leftmargini 2em
+\leftmarginv .5em
+\leftmarginvi .5em
+\oddsidemargin -5.4truemm
+\evensidemargin -5.4truemm
+\marginparwidth 48truept
+\marginparsep 10truept
+\textwidth 170truemm % 用紙の横幅
+\textheight 250truemm % 用紙の縦幅
+\topmargin -20truemm
+\columnsep 7truemm
+
+%------------------------------------------------------------
+% タイトル設定
+%------------------------------------------------------------
+\def\title#1{\gdef\@title{#1}}
+\def\author#1{\gdef\@author{#1}}
+\def\date#1{\gdef\@date{#1}}
+
+\def\@maketitle{%
+	\newpage
+	\null
+	\begin{center}%
+	\let \footnote \thanks
+	{\LARGE \bf \@title}%
+	\vskip 1em%
+	{\large \@author}%
+	\vskip 1em
+	{\large \@date}%
+	\end{center}%
+	\vskip 1em
+}
+
+%------------------------------------------------------------
+% 参考文献設定
+%------------------------------------------------------------
+\def\thebibliography#1{\section*{参考文献\markboth{参 考 文 献}{参 考 文 献}}\list
+ {[{\arabic{enumi}}]}{\settowidth\labelwidth{[{#1}]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \setlength\itemsep{0zh}
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy
+ \sfcode`\.=1000\relax}
+\let\endthebibliography=\endlist
+
+%------------------------------------------------------------
+% section設定
+%------------------------------------------------------------
+\def\section{\@startsection {section}{1}{\z@}{2.5ex plus 1ex minus
+ .2ex}{1.5ex plus .2ex}{\large\bf}}
+\def\subsection{\@startsection{subsection}{2}{\z@}{2.5ex plus 1ex minus
+ .2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}{2.5ex plus
+1ex minus .2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+\def\paragraph{\@startsection
+ {paragraph}{4}{\z@}{2.5ex plus 1ex minus .2ex}{-1em}{\normalsize\bf}}
+\def\subparagraph{\@startsection
+ {subparagraph}{4}{\parindent}{2.5ex plus 1ex minus
+ .2ex}{-1em}{\normalsize\bf}
+}
+
+%------------------------------------------------------------
+% fig,table設定
+%------------------------------------------------------------
+\def\fnum@figure{Fig.~\thefigure}
+\def\fnum@table{Table~\thetable}
+
+%------------------------------------------------------------
+% eqnarrayの等号間スペース設定
+% 他のstyにも適用させるべき。もしくはまとあとに組み込む。
+%------------------------------------------------------------
+\def\eqnarray{\stepcounter{equation}\let\@currentlabel=\theequation
+\global\@eqnswtrue
+\global\@eqcnt\z@\tabskip\@centering\let\\=\@eqncr
+$$\halign to \displaywidth\bgroup\@eqnsel\hskip\@centering
+  $\displaystyle\tabskip\z@{##}$&\global\@eqcnt\@ne
+  \hfil$\displaystyle{{}##{}}$\hfil
+  &\global\@eqcnt\tw@
+   $\displaystyle\tabskip\z@{##}$\hfil
+   \tabskip\@centering&\llap{##}\tabskip\z@\cr%
+}
