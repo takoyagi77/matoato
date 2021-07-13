@@ -13737,11 +13737,11 @@ sub del_matoato_warning{
 	if($H_OS eq "MSWin32"){
 		open(TMP,$H_MV.' temp.tmp '.encode($H_JCODE2,$H_INPUT_FILE).'|'); # とりあえずのファイルを削除したいファイル名に変える
 		close(TMP);
-		open(IN,"<:encoding($H_JCODE1)",encode($H_JCODE2,$H_INPUT_FILE));
+		open(IN,"<:utf8",encode($H_JCODE2,$H_INPUT_FILE));
 	}elsif($H_OS eq "darwin"){
 		open(TMP,$H_MV.' temp.tmp '.$H_INPUT_FILE.'|'); # とりあえずのファイルを削除したいファイル名に変える
 		close(TMP);
-		open(IN,"<:encoding($H_JCODE1)",$H_INPUT_FILE);
+		open(IN,"<:utf8",$H_INPUT_FILE);
 	}
 }
 #------------------------------------
@@ -13764,9 +13764,9 @@ sub insrt_matoato_warning{
 sub insrt_matoato_warning_body{
 	@warning = sort{ @$a[1] <=> @$b[1] } @warning_sentence;
 	if($H_OS eq "MSWin32"){
-		open(IN,"<:encoding($H_JCODE1)",encode($H_JCODE2,$H_INPUT_FILE));
+		open(IN,"<:utf8",encode($H_JCODE2,$H_INPUT_FILE));
 	}elsif($H_OS eq "darwin"){
-		open(IN,"<:encoding($H_JCODE1)",$H_INPUT_FILE);
+		open(IN,"<:utf8",$H_INPUT_FILE);
 	}
 	open(OUT,'>:utf8','temp.tmp'); # とりあえずのファイル
 	$i=0;
