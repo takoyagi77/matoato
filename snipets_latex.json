@@ -1,0 +1,71 @@
+{
+    // Place your snippets for latex here. Each snippet is defined under a snippet name and has a prefix, body and 
+    // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+    // same ids are connected.
+    // Example:
+    // "Print to console": {
+    //  "prefix": "log",
+    //  "body": [
+    //      "console.log('$1');",
+    //      "$2"
+    //  ],
+    //  "description": "Log output to console"
+    // }
+
+    "figinsert":{  // スニペットの名前
+        "prefix": "infig",  // 呼び出し名
+        "body": [  // 本体
+            "\t図：${1:Caption}（${2:Label},${3:Filename},${4:1.0}倍,${5:上下ここ頁}）"
+        ],
+        "description": "図の挿入"  // 説明
+    },
+    "subfiginsert":{  // スニペットの名前
+        "prefix": "insubfig",  // 呼び出し名
+        "body": [  // 本体
+            "\t${1:複}：${2:Caption}（${3:Label},${4:上下ここ頁}：${5:Caption}（${6:Label},${7:Filename},${8:1.0}倍）,${9:Caption}（${10:Label},${11:Filename},${12:1.0}倍））（${13:11}）"
+        ],
+        "description": "複図の挿入"  // 説明
+    },
+    "tableinsert":{  // スニペットの名前
+        "prefix": "intab",  // 呼び出し名
+        "body": [  // 本体
+            "\t表：${1:Caption}（${2:Label},${3:上下ここ頁}）",
+            "\t---",
+            "\t|${4:Contents}|${5:Contents}|",
+            "\t===",
+            "\t|${6:Contents}|${7:Contents}|",
+            "\t---"
+        ],
+        "description": "表の挿入"  // 説明
+    },
+    "iteminsert":{  // スニペットの名前
+        "prefix": "initem",  // 呼び出し名
+        "body": [  // 本体
+            "\t　${1:1}　${2:Contents}",
+            "\t　${3:2}　${4:Contents}",
+            "\t　${5:3}　${6:Contents}"
+        ],
+        "description": "箇条書きの挿入"  // 説明
+    },
+    "begindoc":{
+        "prefix": "doc",
+        "body": [
+            "\\documentclass[10.5ptj,uplatex]{jsarticle}",
+			"\"\\usepackage{myreport}\"",
+            "題名：${1:Title}",
+            "作成：${2:Author}",
+            "日付：${3:Date}",
+            "",
+            "章：${4:Section}"
+        ],
+        "description": "documentclassから章まで入れる"
+    },
+    "References":{
+        "prefix": "inref",
+        "body": [
+            "参考文献：${1:Bib_file_name}：${2:Bst_file_name}",
+        ],
+        "description": "参考文献の挿入"
+    }
+}

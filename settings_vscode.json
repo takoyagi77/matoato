@@ -1,0 +1,123 @@
+{
+	"files.autoGuessEncoding": true,
+	"editor.detectIndentation": false,
+	"[tex]": {
+		"files.encoding": "utf8"
+	},
+	"[txt]": {
+		"files.encoding": "utf8"
+	},
+	"editor.fontFamily": "'MS Gothic', Consolas, 'Courier New', monospace",
+	"latex-workshop.view.pdf.viewer": "tab",
+	"explorer.confirmDelete": false,
+	"files.associations": {
+		"*.txt": "latex"
+	},
+	"files.eol": "\r\n",
+	"editor.acceptSuggestionOnEnter": "off",
+	"emeraldwalk.runonsave": {
+		"commands": [
+			{
+				"match": ".txt$",
+				"cmd": "perl matoato.pl \"${fileDirname}/${fileBasename}\" && code -r \"${fileDirname}/${fileBasenameNoExt}.tex\""
+			}
+		]
+	},
+	"explorer.confirmDragAndDrop": false,
+	"editor.renderControlCharacters": false,
+	// ---------- LaTeX Workshop (begin)----------
+	// 使用パッケージのコマンドや環境の補完を有効にする
+	"latex-workshop.intellisense.package.enabled": true,
+	// 生成ファイルを削除するときに対象とするファイル
+	// デフォルト値に "*.synctex.gz" を追加
+	"latex-workshop.latex.clean.fileTypes": [
+		"*.aux",
+		"*.bbl",
+		"*.blg",
+		"*.idx",
+		"*.ind",
+		"*.lof",
+		"*.lot",
+		"*.out",
+		"*.toc",
+		"*.acn",
+		"*.acr",
+		"*.alg",
+		"*.glg",
+		"*.glo",
+		"*.gls",
+		"*.ist",
+		"*.fls",
+		"*.log",
+		"*.fdb_latexmk",
+		"*.snm",
+		"*.nav",
+		"*.dvi",
+		"*.synctex.gz"
+	],
+	// 生成ファイルを "out" ディレクトリに吐き出す
+	"latex-workshop.latex.outDir": "out",
+	// ビルドのレシピ
+	"latex-workshop.latex.recipes": [
+		{
+			"name": "latexmk",
+			"tools": [
+				"latexmk"
+			]
+		}
+	],
+	// ビルドのレシピに使われるパーツ
+	"latex-workshop.latex.tools": [
+		{
+			"name": "latexmk",
+			"command": "latexmk",
+			"args": [
+				// "-silent",
+				"-outdir=%OUTDIR%",
+				// "$do_cd = 1",
+				// "%DOC%"
+				"-e",
+				"$latex=q/uplatex -synctex=1 -halt-on-error -file-line-error -interaction=nonstopmode -kanji=utf8 %O %S/",
+				"-e",
+				"$bibtex=q/upbibtex %O %S/",
+				"-e",
+				"$dvipdf=q/dvipdfmx %O -o %D %S/",
+				"-e",
+				"$do_cd=1",
+				"-norc",
+				"-gg",
+				"-pdfdvi",
+				"%DOC%"
+			]
+		}
+	],
+	"latex-workshop.latex.recipe.default": "first",
+	"latex-workshop.latex.search.rootFiles.include": [
+		"**/*.tex",
+		"**/*.rnw",
+		"**/*.Rnw",
+	],
+	// synctex用の設定
+	"latex-workshop.synctex.afterBuild.enabled": true,
+	// 日本語特有エラーの非表示
+	"latex-workshop.message.latexlog.exclude": [
+		"(Font shape `(JY1|JT1|JY2|JT2)(/.*)(sl|it|sc)'.*|Some font shapes were not available.*)"
+	],
+	// Warningの非表示
+	"latex-workshop.message.warning.show": false,
+	// Errorの非表示
+	"latex-workshop.message.error.show": false,
+	"latex-workshop.message.update.show": false,
+	"latex-workshop.view.outline.sections": [
+		"part",
+		"chapter",
+		"section",
+		"subsection",
+		"subsubsection",
+		"章＊*：",
+		"節＊*：",
+		"節節＊*："
+	],
+	"latex-workshop.latex.rootFile.doNotPrompt": true,
+	// ---------- LaTeX Workshop (end)----------
+}
