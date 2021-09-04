@@ -171,7 +171,10 @@ $bug000813 =~ s/\n\t(\t){0,1}/\n$1/g;
 #-------------------------------------------------------
 ############		Version 履歴(begin)		############
 #-------------------------------------------------------
-$VER=	'まとあと txt2tex/tex2txt 0.9.5, ななみん, 210801';#■□■□■□■□■□■□■□■□
+$VER=	'まとあと txt2tex/tex2txt 0.9.6, ななみん, 211001';#■□■□■□■□■□■□■□■□
+	#	〇txt2tex:「節節節」の新設
+	#	〇subfig:debug:拡張子を含まないファイル名を指定されたときの挙動がおかしかったのを修正
+#$VER=	'まとあと txt2tex/tex2txt 0.9.5, ななみん, 210801';#■□■□■□■□■□■□■□■□
 	#	〇main:「platex」から「uplatex」へ変更
 	#	〇txt2tex:文字コード自動判別が機能していなかったのを修正
 #$VER=	'まとあと txt2tex/tex2txt 0.9.4, ななみん, 210701';#■□■□■□■□■□■□■□■□
@@ -11622,6 +11625,11 @@ sub subfig{ # 200624
 						}elsif(s/$tmp1//){ # labelがファイル名より先に記述されてる場合、もしくはlabelが存在しない場合
 							$subFigFileName = $1;
 							$subFigFile = $1."\.".$2;
+						}else{ # Fileが存在しない場合
+							$subFigFileName = "Noname";
+							$subFigFile = "Noname.png";
+							$_ = "";
+							&insrt_matoato_warning($myLineNum,'ファイル名に拡張子は入ってますか？');
 						}
 
 						s/^[ 	　]*//;
@@ -12062,9 +12070,11 @@ sub section{
 	# 章などの処理
 	s/^($H_LineNum)章：(.*)/\\section\{$2\} /;			#perl580bug: /^$H_LineNum章：/:NG, /^($H_LineNum)章：/:OK
 	s/^($H_LineNum)節節：(.*)/\\subsubsection\{$2\} /;	#perl580bug: /^$H_LineNum章：/:NG, /^($H_LineNum)章：/:OK
+	s/^($H_LineNum)節節節：(.*)/\\subsubsubsection\{$2\} /;	#perl580bug: /^$H_LineNum章：/:NG, /^($H_LineNum)章：/:OK
 	s/^($H_LineNum)節：(.*)/\\subsection\{$2\} /;		#perl580bug: /^$H_LineNum章：/:NG, /^($H_LineNum)章：/:OK
 	s/^($H_LineNum)章(\*|\$\\ast\$|＊)：(.*)/\\section*\{$3\} /;			# 210701
 	s/^($H_LineNum)節節(\*|\$\\ast\$|＊)：(.*)/\\subsubsection*\{$3\} /;	# 210701
+	s/^($H_LineNum)節節節(\*|\$\\ast\$|＊)：(.*)/\\subsubsubsection*\{$3\} /;	# 211001
 	s/^($H_LineNum)節(\*|\$\\ast\$|＊)：(.*)/\\subsection*\{$3\} /;		# 210701
 	s/^($H_LineNum)付録：(.*)/\\appendix\{$2\} /;		#perl580bug: /^$H_LineNum章：/:NG, /^($H_LineNum)章：/:OK
 }
@@ -13361,7 +13371,8 @@ sub	get_label_section{
 	while( s/（([^）（]*)（([^（）]*)）/（$1\($2\)/ ){}	# （...（...） があったとき （...(...) にする
 
 
-	if( /^($H_LineNum)(章|節|節節|付録)：/ ){
+	# if( /^($H_LineNum)(章|節|節節|付録)：/ ){
+	if( /^($H_LineNum)(章|節|節節|節節節|付録)：/ ){ # 211001
 		s/^($H_LineNum)//;	$ptn = $1;
 		chop;
 		if( s/[ 	　]*（(.*)）[ 	　]*$// ){ 
