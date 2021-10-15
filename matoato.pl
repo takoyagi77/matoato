@@ -7475,7 +7475,7 @@ sub	HeaderFile_tex2txt{
 #	●行列の=に &=& を付け足す処理のデバッグ, 000227b
 #	●行列を挟む括弧の処理のデバッグ, 000303a, 000327a
 #	●全角のローマ数字を LaTeXmoji に変換する, 000309b
-#		・小文字  → {\romannumeral 2}	←　DOS/VのSJISではいいが、linuxでは文字化けする
+#		・小文字  → {\romannumeral 2}	←　DOS/VのSJISではいいが、linuxでは文字化けする
 
 #		・大文字 Ⅵ → {\expandafter\uppercase\expandafter{\romannumeral 6}}
 #	●空のファイルをtxt2texすると\end{document}だけのtexファイルになり、\begin{document}が書かれない←きちんと書く, 000309c
@@ -8592,7 +8592,7 @@ $x='
 		#	π	\varpi
 		#	：	\vdots	# 題名：なども変換する, 981209c, 981219a, 981219b
 		#	●全角のローマ数字を LaTeXmoji に変換する, 000309b
-		#		・小文字  → {\romannumeral 2} # 文字化けしてたので消した 200624
+		#		・小文字  → {\romannumeral 2} # 文字化けしてたので消した 200624
 		#		・大文字 Ⅵ → {\expandafter\uppercase\expandafter{\romannumeral 6}}
 		#	Ｕ	\bigcup	#000801q
 		#	ｕ	\cup	#000801q
@@ -11519,9 +11519,9 @@ sub subfig{ # 200624
 				for($nsubFig=0;$nsubFig<=$#subFig;$nsubFig++){
 					if($figMode eq '横'){
 						# $H_OUT = $H_next.'	\begin{minipage}[b]{'.$tmp000.'\linewidth}'."\n".$H_next."		\\centering\n"; # 文書の文字サイズが10pt以外だとlinewidthがそのptに依存されるからだめっぽい？
-						$H_OUT = $H_next.'	\begin{minipage}[b]{'.$tmp000.'\hsize}'."\n".$H_next."		\\centering\n";
+						$H_OUT = $H_next.'	\begin{minipage}[t]{'.$tmp000.'\hsize}'."\n".$H_next."		\\centering\n";
 					}elsif($figMode eq '縦'){
-						$H_OUT = $H_next.'	\begin{minipage}[b]{1\linewidth}'."\n".$H_next."		\\centering\n";
+						$H_OUT = $H_next.'	\begin{minipage}[t]{1\linewidth}'."\n".$H_next."		\\centering\n";
 					}else{
 						&print_warning("% txt2tex Error\(".$LineNum."\)\:図のモードが指定されていません。次の処理に移ります\n");
 						&insrt_matoato_warning($LineNum,'図のモードが指定されていません。次の処理に移ります。');
@@ -11593,7 +11593,7 @@ sub subfig{ # 200624
 				$max_num = $1;
 				$tmp000 = round((1/$max_num/$documentpoint) , 2);
 				for($nsubFig=0;$nsubFig<$max_num;$nsubFig++){
-					$H_OUT = $H_next.'	\begin{minipage}[b]{'.$tmp000.'\hsize}'."\n".$H_next."		\\centering\n";
+					$H_OUT = $H_next.'	\begin{minipage}[t]{'.$tmp000.'\hsize}'."\n".$H_next."		\\centering\n";
 					&print_OUT_euc;
 					$_ = $subFig[$nsubFig + $loop];
 					$myLineNum = $nsubFig.$LineNum;
