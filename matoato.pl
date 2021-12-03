@@ -171,7 +171,9 @@ $bug000813 =~ s/\n\t(\t){0,1}/\n$1/g;
 #-------------------------------------------------------
 ############		Version 履歴(begin)		############
 #-------------------------------------------------------
-$VER=	'まとあと txt2tex/tex2txt 0.9.6, ななみん, 211001';#■□■□■□■□■□■□■□■□
+$VER=	'まとあと txt2tex/tex2txt 0.9.7, ななみん, 211101';#■□■□■□■□■□■□■□■□
+	#	〇fig2tex:「here」パッケージの「H」オプションを「強制」で記述可能なように
+#$VER=	'まとあと txt2tex/tex2txt 0.9.6, ななみん, 211001';#■□■□■□■□■□■□■□■□
 	#	〇txt2tex:「節節節」の新設
 	#	〇subfig:debug:拡張子を含まないファイル名を指定されたときの挙動がおかしかったのを修正
 #$VER=	'まとあと txt2tex/tex2txt 0.9.5, ななみん, 210801';#■□■□■□■□■□■□■□■□
@@ -11291,11 +11293,13 @@ sub figure{
 			# $size='xsize=\\hsize';
 			$figName='noname.eps';
 
-			$_tmp0=$_;	$tmp1='[ 	]*([上下こ頁 ]+)[ 	]*';	# $positionの設定
+			# $_tmp0=$_;	$tmp1='[ 	]*([上下こ頁 ]+)[ 	]*';	# $positionの設定
+			$_tmp0=$_;	$tmp1='[ 	]*([上下こ頁強制 ]+)[ 	]*';	# $positionの設定 211101
 
 			if( s/\,$tmp1\,/\,/ || s/^$tmp1\,// || s/\,$tmp1$// ){
 				# $_tmp=$_;	$_=$1;	y/上下頁/tbp/;	s/ここ/h/;
-				$_tmp=$_;	$_=$1;	y/上下頁/tbp/;	s/ここ/ht/; # 200624
+				# $_tmp=$_;	$_=$1;	y/上下頁/tbp/;	s/ここ/ht/; # 200624
+				$_tmp=$_;	$_=$1;	y/上下頁/tbp/;	s/ここ/ht/;	s/強制/H/; # 211101
 				if( length($_tmp)==0 || /こ/ ){	$_=$_tmp0;}	# （）の中身がなくなったらfilenameとみなす
 				else{							$position=$_;	$_=$_tmp;}
 			}
@@ -11391,13 +11395,18 @@ sub init_subfig{ # 200624
 sub subfig{ # 200624
 	my ($f_figureless,$position,$size0,$size,$figName);
 
-	if(s/^	[ 	　]*($H_LineNum)(縦|横|複)：([ 	　]*)//){ # 複数図検出
+	if(s/^	[ 	　]*($H_LineNum)(縦|横|複+)：([ 	　]*)//){ # 複数図検出
 		$f_figureless = 0;
 		if(length($3)==0){
 			$f_figureless = 1;
 		}
 		$LineNum = $1; # 現在の行数
 		$figMode = $2; # 縦か横か
+		$figMode_sub = 1; # subfigにするか
+		if(length($figMode)!=1){
+			$figMode = '複';
+			$figMode_sub = 0;
+		}
 
 		# figure本体の処理(begin)
 		# if(s/^(.*)（[ 	　]*(.*)：(.*)[ 	　]*）[ 	　]*\n/$2$3/){
@@ -11466,7 +11475,8 @@ sub subfig{ # 200624
 				}
 			}
 			$_ = $_tmp1;
-			$tmp1 = "[ 	　]*([上下こ頁]+)[ 	　]*";
+			# $tmp1 = "[ 	　]*([上下こ頁]+)[ 	　]*";
+			$tmp1 = "[ 	　]*([上下こ頁強制]+)[ 	　]*"; # 211101
 			$_ = $_tmp0;
 
 			if( s/\,$tmp1$// || s/^$tmp1\,// || s/^$tmp1$//){ # 位置情報がある場合
@@ -11474,6 +11484,7 @@ sub subfig{ # 200624
 				$_ = $1;
 				y/上下頁/tbp/;
 				s/ここ/ht/;
+				s/強制/H/; # 211101
 				if(length($_tmp)==0){
 					$_ = $_tmp0; # 位置情報を抜きとった後何も残らなかった場合、位置情報をラベルとみなす
 				}else{
@@ -11485,20 +11496,22 @@ sub subfig{ # 200624
 			if(!(/\,/)){
 				s/^[ 	　]*//;
 				s/[ 	　]*$//;
-				if((length($_) != 0) && ($figCaption[$nFig] ne " ")){ # ラベルもキャプションもある場合
-					$figLabel[$nFig]=&repl_label_moji($_);
-				}elsif((length($_) == 0) && ($figCaption[$nFig] ne " ")){ # ラベルはないがキャプションはあるとき => キャプションをラベルに
-					$tmp_caption = $figCaption[$nFig];
-					$figLabel[$nFig]=&repl_label_moji($tmp_caption);
-				}elsif((length($_) != 0) && ($figCaption[$nFig] eq " ")){ # ラベルがあるのにキャプションがないとき
-					$figLabel[$nFig]=&repl_label_moji($_);
-					&print_warning("% txt2tex Error\(".$LineNum."\)\:図にキャプションがないのにラベルがあります。つけることをオススメするよ\(\*∂v∂\)\n");
-					&insrt_matoato_warning($LineNum,'図にキャプションがないのにラベルがあります。つけることをオススメするよ(*∂v∂)');
-				}else{ # ラベルもキャプションもない場合
-					$tmp_caption = $figName . $nFig;
-					$figLabel[$nFig]=&repl_label_moji($tmp_caption);
-					&print_warning("% txt2tex Error\(".$LineNum."\)\:図にラベルもキャプションもありません。つけることをオススメするよ\(\*∂v∂\)\n");
-					&insrt_matoato_warning($LineNum,'図にラベルもキャプションもありません。つけることをオススメするよ(*∂v∂)');
+				if($figMode_sub){
+					if((length($_) != 0) && ($figCaption[$nFig] ne " ")){ # ラベルもキャプションもある場合
+						$figLabel[$nFig]=&repl_label_moji($_);
+					}elsif((length($_) == 0) && ($figCaption[$nFig] ne " ")){ # ラベルはないがキャプションはあるとき => キャプションをラベルに
+						$tmp_caption = $figCaption[$nFig];
+						$figLabel[$nFig]=&repl_label_moji($tmp_caption);
+					}elsif((length($_) != 0) && ($figCaption[$nFig] eq " ")){ # ラベルがあるのにキャプションがないとき
+						$figLabel[$nFig]=&repl_label_moji($_);
+						&print_warning("% txt2tex Error\(".$LineNum."\)\:図にキャプションがないのにラベルがあります。つけることをオススメするよ\(\*∂v∂\)\n");
+						&insrt_matoato_warning($LineNum,'図にキャプションがないのにラベルがあります。つけることをオススメするよ(*∂v∂)');
+					}else{ # ラベルもキャプションもない場合
+						$tmp_caption = $figName . $nFig;
+						$figLabel[$nFig]=&repl_label_moji($tmp_caption);
+						&print_warning("% txt2tex Error\(".$LineNum."\)\:図にラベルもキャプションもありません。つけることをオススメするよ\(\*∂v∂\)\n");
+						&insrt_matoato_warning($LineNum,'図にラベルもキャプションもありません。つけることをオススメするよ(*∂v∂)');
+					}
 				}
 			}else{
 				&print_warning("% txt2tex Error\(".$LineNum."\)\:図の引数が多いです。次の処理に移ります\n");
@@ -11515,77 +11528,6 @@ sub subfig{ # 200624
 
 			@subFig = split(/）[ 	　\,]*/); # $subFig[n]=[ 	　]*SubCaption[ 	　]*（...
 			$tmp000 = round((1/($#subFig + 1)/$documentpoint) , 2); # 1/subfigの数でminipageの大きさを決定する(横のみ)
-			if(0){
-				for($nsubFig=0;$nsubFig<=$#subFig;$nsubFig++){
-					if($figMode eq '横'){
-						# $H_OUT = $H_next.'	\begin{minipage}[b]{'.$tmp000.'\linewidth}'."\n".$H_next."		\\centering\n"; # 文書の文字サイズが10pt以外だとlinewidthがそのptに依存されるからだめっぽい？
-						$H_OUT = $H_next.'	\begin{minipage}[t]{'.$tmp000.'\hsize}'."\n".$H_next."		\\centering\n";
-					}elsif($figMode eq '縦'){
-						$H_OUT = $H_next.'	\begin{minipage}[t]{1\linewidth}'."\n".$H_next."		\\centering\n";
-					}else{
-						&print_warning("% txt2tex Error\(".$LineNum."\)\:図のモードが指定されていません。次の処理に移ります\n");
-						&insrt_matoato_warning($LineNum,'図のモードが指定されていません。次の処理に移ります。');
-						next; # ここの処理にいくことはないはず。
-					}
-					&print_OUT_euc;
-					$_ = $subFig[$nsubFig];
-					$myLineNum = $nsubFig.$LineNum;
-					if(s/^[ 	　]*(.*)（[ 	　]*(.*)[ 	　]*/$2/){
-						if((length($1)!=0) && ($1 !~ /^\ $/)){ # subfigのキャプションがある場合 201226追記 文字が何もない場合「\ 」がマッチするらしい 210529追記 文字が何もない場合のみマッチするように変更 -> 多分「 」、「　」や「\t」はその文字がsubcaptionになると思われる
-							$subFigCaption[$nsubFig]=$1;
-							$subCaptionexist = 1;
-						}else{ # ない場合
-							# $subFigCaption[$nsubFig]="";
-							$subCaptionexist = 0;
-						}
-
-						$_tmp = $_;
-						$tmp1 = "[ 	　]*([0-9\.]+)[ 	　]*倍[ 	　]*";
-						if(s/^$tmp1\,// || s/\,$tmp1\,/\,/ || s/\,$tmp1$//){ # 倍率が指定されている場合
-							$_tmp = $_;
-							$scale[$nsubFig] = $size0.$1;
-							# $scale[$nsubFig] = $size0.$1.$size1;
-						}else{ # されていない場合
-							$scale[$nsubFig] = $size0."1.0";
-							# $scale[$nsubFig] = $size0."1.0".$size1;
-						}
-
-						$_ = $_tmp;
-						$tmp1 = "[ 	　]*([^ 	　]+.*)[ 	　]*\.[ 	　]*" . $extension . "[ 	　]*"; # $1=filename,$2=拡張子
-						if(s/^$tmp1\,// || s/\,$tmp1\,/\,/ || s/\,$tmp1$//){ # labelがファイル名より後に記述されている場合
-							$subFigFileName = $1;
-							$subFigFile = $1."\.".$2;
-						}elsif(s/$tmp1//){ # labelがファイル名より先に記述されてる場合、もしくはlabelが存在しない場合
-							$subFigFileName = $1;
-							$subFigFile = $1."\.".$2;
-						}
-
-						s/^[ 	　]*//;
-						s/[ 	　]*$//;
-						if(length($_) == 0){ # labelが存在しない場合
-							$subFigLabel[$nsubFig1] = &repl_label_moji($subFigFileName);
-						}else{
-							$subFigLabel[$nsubFig1] = &repl_label_moji($_);
-						}
-					}
-
-					$H_OUT = $H_next."		\\includegraphics[keepaspectratio,".$scale[$nsubFig]."]{".$subFigFile."}\n"; &print_OUT_euc;
-					# $H_OUT = $H_next."		\\includegraphics[".$scale[$nsubFig]."]{".$subFigFile."}\n"; &print_OUT_euc;
-					# $H_OUT = $myLineNum.'"		\subcaption{"'.$subFigCaption[$nsubFig].'"}"'."\n"; &print_OUT_euc;
-					if($subCaptionexist == 1){$H_OUT = $myLineNum.'"		\subcaption{"'.$subFigCaption[$nsubFig].'"}"'."\n"; &print_OUT_euc;} # subcaptionいらない場合の作成 201226
-					# $H_OUT = $H_next."		\\label{".$subFigLabel[$nsubFig1]."}\n"; &print_OUT_euc;
-					if($subCaptionexist == 1){$H_OUT = $H_next."		\\label{".$subFigLabel[$nsubFig1]."}\n"; &print_OUT_euc;} # subcaptionがない時labelは意味をなさないため削除 201226
-					if(($figMode eq '横') || (($figMode eq '縦') && ($nsubFig == $#subFig)) ){
-						$H_OUT = $H_next."	\\end{minipage}\n";
-						&print_OUT_euc;
-					}else{
-						$H_OUT = $H_next."	\\end{minipage}\\\\\n";
-						&print_OUT_euc;
-					}
-					$subFigLabel1->[$nsubFig2][$nsubFig + 1] = $subFigLabel[$nsubFig1];
-					$nsubFig1++;
-				}
-			}
 			$_ = $num_sub_position;
 			$loop = 0;
 			while(s/[ 	　\,]*(\d)[ 	　\,]*(.*)/$2/){
@@ -11641,25 +11583,39 @@ sub subfig{ # 200624
 						}
 					}
 					$H_OUT = $H_next."		\\includegraphics[keepaspectratio,".$scale[$nsubFig]."]{".$subFigFile."}\n"; &print_OUT_euc;
-					if($subCaptionexist == 1){$H_OUT = $myLineNum.'"		\subcaption{"'.$subFigCaption[$nsubFig].'"}"'."\n"; &print_OUT_euc;} # subcaptionいらない場合の作成 201226
+					if($subCaptionexist == 1){
+						if($figMode_sub){
+							$H_OUT = $myLineNum.'"		\subcaption{"'.$subFigCaption[$nsubFig].'"}"'."\n";
+						}else{
+							$H_OUT = $myLineNum.'"		\caption{"'.$subFigCaption[$nsubFig].'"}"'."\n";
+						} 
+						&print_OUT_euc;
+					} # subcaptionいらない場合の作成 201226
 					if($subCaptionexist == 1){$H_OUT = $H_next."		\\label{".$subFigLabel[$nsubFig1]."}\n"; &print_OUT_euc;} # subcaptionがない時labelは意味をなさないため削除 201226
 					if(($nsubFig + 1 == $max_num) && ($temp_num =~ /^[ 	　\,]*(\d)[ 	　\,]*(.*)/)){
 						$H_OUT = $H_next."	\\end{minipage}\\\\\n";  &print_OUT_euc;
 					}else{
 						$H_OUT = $H_next."	\\end{minipage}\n";  &print_OUT_euc;
 					}
-					$subFigLabel1->[$nsubFig2][$nsubFig + $loop + 1] = $subFigLabel[$nsubFig1];
+					if($figMode_sub){
+						$subFigLabel1->[$nsubFig2][$nsubFig + $loop + 1] = $subFigLabel[$nsubFig1];
+					}else{
+						$figLabel[$nFig]=$subFigLabel[$nsubFig1];
+						$nFig++;
+					}
 					$nsubFig1++;
 				}
 				$loop += $max_num;
 				$_ = $temp_num;
 			}
 
-			$H_OUT = $LineNum.'"	\caption{"'.$figCaption[$nFig].'"}"'."\n"; &print_OUT_euc;
-			$H_OUT = $H_next."	\\label{".$figLabel[$nFig]."}\n"; &print_OUT_euc;
+			if($figMode_sub){
+				$H_OUT = $LineNum.'"	\caption{"'.$figCaption[$nFig].'"}"'."\n"; &print_OUT_euc;
+				$H_OUT = $H_next."	\\label{".$figLabel[$nFig]."}\n"; &print_OUT_euc;
+			}
 			$H_OUT = $H_next."\\end{figure}\n"; &print_OUT_euc;
 
-			$nFig++;
+			if($figMode_sub){$nFig++;}
 			$nsubFig2++;
 		}
 		next;
