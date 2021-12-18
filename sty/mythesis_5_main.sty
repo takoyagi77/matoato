@@ -1,0 +1,173 @@
+%---------------------------------------------------
+% 卒論、修論用styファイル
+% 2020.10.12 ななみん
+% 2020.11.17 修論にも適用できるようにした
+% 2021.01.05 修論フォーマット変更
+% 2021.01.15 tableofcontens周辺変更
+% 2021.01.18 appendix周辺変更
+%---------------------------------------------------
+
+%------------------------------------------------------------
+% ページ設定
+%------------------------------------------------------------
+\sloppy
+\oddsidemargin -0.4truemm % 奇数頁左側余白25mm
+\evensidemargin -0.4truemm % 偶数頁左側余白25mm
+\textwidth 160truemm % 用紙の横幅
+% \textheight 248truemm % 用紙の縦幅
+\headheight = 0mm %
+\headsep = 0mm %
+\topmargin -5.4truemm %
+
+\newcommand{\papersetting}[1]{% % macro名「papersetting」は絶対に変更しない！！！変更する場合「matoato」も変更してね。
+	\newcounter{papernum}%
+	\ifnum #1 = 1% % 卒論用
+		\addtocounter{papernum}{1}%
+		\textheight 248truemm % 用紙の縦幅
+	\fi%
+	\ifnum #1 = 2% % 修論用
+		\addtocounter{papernum}{2}%
+		\textheight 253truemm % 用紙の縦幅
+	\fi%
+}
+
+\newcommand{\master}{ % 修士論文用のやつ
+	\thispagestyle{empty}
+	\newpage
+	\begin{center}
+		\vspace*{10zh}
+		{\fontsize{36pt}{0pt}\selectfont 修　士　論　文 \par \vspace{4zh}}%
+		{\fontsize{20pt}{0pt}\selectfont \MyTitle \par \vspace{4zh}}%
+		{\fontsize{20pt}{0pt}\selectfont \@ENGtitle \par \vspace{2zh}}%
+	\end{center}
+	\thispagestyle{empty}
+	\newpage
+	\pagenumbering{roman}
+	\tableofcontents
+	\newpage
+	\pagenumbering{arabic}
+}
+
+\newcommand{\appendixcover}{ % 付録の表紙と設定
+	\vspace*{\stretch{1}}%
+	\begin{center}%
+	{\fontsize{20pt}{0pt}\selectfont 付録}%
+	\end{center}%
+	\thispagestyle{empty}%
+	\vspace{\stretch{1}}%
+	\newpage%
+	\gdef\thepage{\@Alph\c@section-\@arabic\c@page}%
+	\def\section{\setcounter{page}{1} \@startsection {section}{1}{\z@}{2.5ex plus 1ex minus .2ex}{1.5ex plus .2ex}{\large\bf}}
+}
+
+
+%------------------------------------------------------------
+% Title設定
+%------------------------------------------------------------
+% \def\title#1#2{\gdef\@title{#2}} % 題名
+\def\author#1#2{\gdef\@author{#2}} % 作成
+\def\date#1{\gdef\@date{#1}} % 年度
+\def\studentID#1{\gdef\@studentID{#1}}
+\def\ENGtitle#1#2{\gdef\@ENGtitle{#2}}
+\newcommand\Originaltitle{}
+\let\Originaltitle\title
+\renewcommand{\title}[2]{%
+  \Originaltitle{#2}%
+  \renewcommand{\MyTitle}{#2}%
+}
+\newcommand{\MyTitle}{}
+
+\def\@maketitle{%
+	\newpage%
+	\null%
+	\ifnum \value{papernum} = 1%
+		\begin{flushleft}%
+			{\Large \@date 卒業論文}%
+		\end{flushleft}%
+		\vspace{15truemm}%
+		\begin{center}%
+			{\Huge \@title}%
+		\end{center}%
+		\vspace{140truemm}%
+		\begin{flushright}%
+			{\large 報告者：\@studentID \ \@author \par%
+			担当教員：小坂　学　教授 \par 近畿大学理工学部機械工学科制御工学研究室}
+		\end{flushright}%
+		\vspace{1truemm}%
+		\thispagestyle{empty}
+		\newpage
+		\pagenumbering{roman}
+		\tableofcontents
+		\newpage
+		\pagenumbering{arabic}
+	\fi
+	\ifnum \value{papernum} = 2%
+		\begin{center}%
+			\vspace*{10zh}
+			{\fontsize{36pt}{0pt}\selectfont 修　士　論　文 \par}%
+			{\fontsize{20pt}{0pt}\selectfont \vspace{1zh} \@date \par}%
+			\vfill
+			{\fontsize{18pt}{0pt}\selectfont 近畿大学大学院 \par \vspace{1zh} 総合理工学研究科 \par \vspace{1zh} メカニックス系工学専攻 \par \vspace{1zh}}
+			{\fontsize{18pt}{0pt}\selectfont \@studentID　\@author}
+		\end{center}%
+		\master
+	\fi
+}
+
+
+%------------------------------------------------------------
+% 参考文献設定
+%------------------------------------------------------------
+\def\thebibliography#1{\section*{参考文献\markboth{参 考 文 献}{参 考 文 献}}\list
+ {[{\arabic{enumi}}]}{\settowidth\labelwidth{[{#1}]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \setlength\itemsep{0zh}
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy
+ \sfcode`\.=1000\relax}
+\let\endthebibliography=\endlist
+
+%------------------------------------------------------------
+% section設定
+%------------------------------------------------------------
+\def\section{\@startsection {section}{1}{\z@}{2.5ex plus 1ex minus
+ .2ex}{1.5ex plus .2ex}{\large\bf}}
+\def\subsection{\@startsection{subsection}{2}{\z@}{2.5ex plus 1ex minus
+ .2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}{2.5ex plus
+1ex minus .2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+\def\paragraph{\@startsection
+ {paragraph}{4}{\z@}{2.5ex plus 1ex minus .2ex}{-1em}{\normalsize\bf}}
+\def\subparagraph{\@startsection
+ {subparagraph}{4}{\parindent}{2.5ex plus 1ex minus
+ .2ex}{-1em}{\normalsize\bf}
+}
+
+%------------------------------------------------------------
+% fig,table設定
+%------------------------------------------------------------
+\def\fnum@figure{Fig.~\thefigure}
+\def\fnum@table{Table~\thetable}
+
+%------------------------------------------------------------
+% 式、図、表番号を「章番号.番号」にする
+%------------------------------------------------------------
+\renewcommand{\theequation}{\thesection.\arabic{equation}}\@addtoreset{equation}{section}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}\@addtoreset{figure}{section}
+\renewcommand{\thetable}{\thesection.\arabic{table}}\@addtoreset{table}{section}
+
+%------------------------------------------------------------
+% eqnarrayの等号間スペース設定
+% 他のstyにも適用させるべき。もしくはまとあとに組み込む。
+%------------------------------------------------------------
+\def\eqnarray{\stepcounter{equation}\let\@currentlabel=\theequation
+\global\@eqnswtrue
+\global\@eqcnt\z@\tabskip\@centering\let\\=\@eqncr
+$$\halign to \displaywidth\bgroup\@eqnsel\hskip\@centering
+  $\displaystyle\tabskip\z@{##}$&\global\@eqcnt\@ne
+  \hfil$\displaystyle{{}##{}}$\hfil
+  &\global\@eqcnt\tw@
+   $\displaystyle\tabskip\z@{##}$\hfil
+   \tabskip\@centering&\llap{##}\tabskip\z@\cr%
+}
