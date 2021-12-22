@@ -12949,6 +12949,17 @@ sub	label2tex{
 					}
 				}
 			}
+			for($i=0;$i<$nsubFig2;$i++){
+				$tmp = @{$subFigLabel1->[$i]};
+				for($j=1;$j<$tmp;$j++){
+					if($subFigLabel1->[$i][$j] eq $ptn){
+						&checkLabel2($ptn);
+						$ptnNew = "\"\\ref\{" . $subFigLabel1->[$i][0] . "\}\\subref\{" . $subFigLabel1->[$i][$j] . "\}\"";
+						$f = 1;
+						last;
+					}
+				}
+			}
 			$_ = $tmp_;
 
 			if($f==0){$ptnNew = "\"\\ref\{".$ptn."\}\"";}
