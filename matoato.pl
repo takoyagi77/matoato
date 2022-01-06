@@ -10249,7 +10249,8 @@ sub tbl{
 				koko # なにこれ 200624
 			}
 
-			$_tmp0=$_;	$tmp1='[ 	]*([上下こ頁 ]+)[ 	]*';	# $positionの設定
+			# $_tmp0=$_;	$tmp1='[ 	]*([上下こ頁 ]+)[ 	]*';	# $positionの設定
+			$_tmp0=$_;	$tmp1='[ 	]*([!上下こ頁 ]+)[ 	]*';	# $positionの設定 220101
 
 			if( s/\,$tmp1\,/\,/ || s/^$tmp1\,// || s/\,$tmp1$// ){
 				$_tmp=$_;	$_=$1;	y/上下頁/tbp/;	s/ここ/h/;
@@ -10262,6 +10263,8 @@ sub tbl{
 			$_tmp0=$_;	$tmp1="[ 	]*(\\\\.+)[ 	]*";	# $sizeの設定(仮)
 			if( s/\,$tmp1\,/\,/ || s/^$tmp1\,// || s/\,$tmp1$// ){
 				$tabsize = $1;
+			}else{
+				$tabsize = '\\normalsize';
 			}
 
 			# @tbl_moji_yoseの設定（もしラベルがなければ（$_に,が含まれなければ）、ラベルとみなす。）
@@ -11298,7 +11301,8 @@ sub figure{
 			$figName='noname.eps';
 
 			# $_tmp0=$_;	$tmp1='[ 	]*([上下こ頁 ]+)[ 	]*';	# $positionの設定
-			$_tmp0=$_;	$tmp1='[ 	]*([上下こ頁強制 ]+)[ 	]*';	# $positionの設定 211101
+			# $_tmp0=$_;	$tmp1='[ 	]*([上下こ頁強制 ]+)[ 	]*';	# $positionの設定 211101
+			$_tmp0=$_;	$tmp1='[ 	]*([!上下こ頁強制 ]+)[ 	]*';	# $positionの設定 220101
 
 			if( s/\,$tmp1\,/\,/ || s/^$tmp1\,// || s/\,$tmp1$// ){
 				# $_tmp=$_;	$_=$1;	y/上下頁/tbp/;	s/ここ/h/;
@@ -11351,9 +11355,10 @@ sub figure{
 
 		if( $f_figureless==0 ){
 			$H_OUT=$H_next.'\begin{figure}['.$position.']'."\n";	&print_OUT_euc;
-			$H_OUT=$H_next.'	\centering'."\n";	&print_OUT_euc;
+			# $H_OUT=$H_next.'	\centering'."\n";	&print_OUT_euc;
 		}
 
+		$H_OUT=$H_next.'	\centering'."\n";	&print_OUT_euc; # 220101
 		$H_OUT=$H_next.'	\includegraphics['.$size.']{'.$figFile.'}';	&print_OUT_euc;		#scale to full width and keep aspect ratio 020322a
 		# $H_OUT=$H_next.'	\psbox['.$size.']{'.$figFile.'}';	&print_OUT_euc;		#scale to full width and keep aspect ratio
 		# $H_OUT=$H_next.'	\psbox[xsize=0pt]{'.$figFile.'}';	&print_OUT_euc;		#use the natural sizes (default)
@@ -11480,7 +11485,8 @@ sub subfig{ # 200624
 			}
 			$_ = $_tmp1;
 			# $tmp1 = "[ 	　]*([上下こ頁]+)[ 	　]*";
-			$tmp1 = "[ 	　]*([上下こ頁強制]+)[ 	　]*"; # 211101
+			# $tmp1 = "[ 	　]*([上下こ頁強制]+)[ 	　]*"; # 211101
+			$tmp1 = "[ 	　]*([!上下こ頁強制]+)[ 	　]*"; # 220101
 			$_ = $_tmp0;
 
 			if( s/\,$tmp1$// || s/^$tmp1\,// || s/^$tmp1$//){ # 位置情報がある場合
