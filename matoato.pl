@@ -11355,10 +11355,11 @@ sub figure{
 
 		if( $f_figureless==0 ){
 			$H_OUT=$H_next.'\begin{figure}['.$position.']'."\n";	&print_OUT_euc;
-			# $H_OUT=$H_next.'	\centering'."\n";	&print_OUT_euc;
+			$H_OUT=$H_next.'	\centering'."\n";	&print_OUT_euc;
+		}else{ # 220101
+			$H_OUT=$H_next.'\begin{center}'."\n";	&print_OUT_euc;
 		}
 
-		$H_OUT=$H_next.'	\centering'."\n";	&print_OUT_euc; # 220101
 		$H_OUT=$H_next.'	\includegraphics['.$size.']{'.$figFile.'}';	&print_OUT_euc;		#scale to full width and keep aspect ratio 020322a
 		# $H_OUT=$H_next.'	\psbox['.$size.']{'.$figFile.'}';	&print_OUT_euc;		#scale to full width and keep aspect ratio
 		# $H_OUT=$H_next.'	\psbox[xsize=0pt]{'.$figFile.'}';	&print_OUT_euc;		#use the natural sizes (default)
@@ -11372,6 +11373,7 @@ sub figure{
 			$nFig++;
 		}else{
 			$H_OUT='	\label{'.$figLabel[$nFig].'}'."\n";	&print_OUT_euc;# fig:を付けない, 981101
+			$H_OUT=$H_next.'\end{center}'."\n";	&print_OUT_euc; # 220101
 			# $nFig++;#110828b# labelを図番号「図（fig1）」に反映させない（図のキャプションも番号も表示されないので）
 		}
 
